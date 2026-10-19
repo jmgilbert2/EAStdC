@@ -288,7 +288,7 @@ static int TestMathHelpConversions(const char* /*testmode*/)
 
 	static float Uint8rangesource[3] = { 0, 128, 255 };
 
-	nErrorCount += !TestArray("UnitFloatToUint8",       Uint8rangesource, UnitFloatToUint8,         ref_UnitFloatToUint8, true);
+	nErrorCount += !TestArray("UnitFloatToUint8",       Uint8rangesource, UnitFloatToUint8,         ref_UnitFloatToUint8, true, true);
 	nErrorCount += !TestArray("ClampUnitFloatToUint8",  Uint8rangesource, ClampUnitFloatToUint8,    ref_ClampUnitFloatToUint8, true);
 
 	return nErrorCount;
