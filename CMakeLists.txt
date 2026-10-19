@@ -15,6 +15,11 @@ option(EASTDC_BUILD_TESTS "Enable generation of build files for tests" OFF)
 set (CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${CMAKE_CURRENT_SOURCE_DIR}/test/packages/EASTL/scripts/CMake")
 include(CommonCppFlags)
 
+# Parts of the test suite fail to compile if char8_t is enabled, so we disable it
+if (EASTL_NO_CHAR8T_FLAG)
+    add_compile_options(${EASTL_NO_CHAR8T_FLAG})
+endif()
+
 #-------------------------------------------------------------------------------------------
 # Library definition
 #-------------------------------------------------------------------------------------------
