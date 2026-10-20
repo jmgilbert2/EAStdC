@@ -435,7 +435,7 @@ int TestCallback()
 	#endif // EA_PLATFORM_DESKTOP
 
 	// to avoid test timeout
-	EA::EAMain::ReportVerbosity(0, "%s", "\n");
+	EA::EAMain::ReportVerbosity(0, EA_CHAR8("%s"), "\n");
 
 	return nErrorCount;
 }

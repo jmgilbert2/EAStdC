@@ -3625,7 +3625,7 @@ static int TestConvertString()
 {
 	int nErrorCount = 0;
 
-	eastl::string8  s8 = EA_CHAR8("hello world");
+	eastl::u8string  s8 = EA_CHAR8("hello world");
 	eastl::string16 s16;
 	eastl::string32 s32;
 
@@ -3645,7 +3645,7 @@ static int TestConvertString()
 
 		// 8 -> 16
 		// Note that using this non-const string causes this specialization to be called instead of the specialization that takes const Source*.
-		char pNonConstString8[] = "hello world";
+		char8_t pNonConstString8[] = EA_CHAR8("hello world");
 		EA::StdC::Strlcpy(s16, pNonConstString8);
 		EATEST_VERIFY(s16 == EA_CHAR16("hello world"));
 		s8.clear();
@@ -3670,7 +3670,7 @@ static int TestConvertString()
 	}
 	{
 		// 8 -> 8
-		EA::StdC::Strlcpy<eastl::string8, eastl::string8>(s8, eastl::string8(EA_CHAR8("hello world")));
+		EA::StdC::Strlcpy<eastl::u8string, eastl::u8string>(s8, eastl::u8string(EA_CHAR8("hello world")));
 		EATEST_VERIFY(s8 == EA_CHAR8("hello world"));
 		s8.clear();
 
@@ -3734,29 +3734,29 @@ static int TestConvertString()
 	{
 		// 8 -> 16
 		s8 = EA_CHAR8("hello world");
-		s16 = EA::StdC::Strlcpy<eastl::string16,  eastl::string8>(s8);
+		s16 = EA::StdC::Strlcpy<eastl::string16,  eastl::u8string>(s8);
 		EATEST_VERIFY(s16 == EA_CHAR16("hello world"));
 		s8.clear();
 
 		// 16 -> 8
-		s8 = EA::StdC::Strlcpy<eastl::string8, eastl::string16>(s16);
+		s8 = EA::StdC::Strlcpy<eastl::u8string, eastl::string16>(s16);
 		EATEST_VERIFY(s8 == EA_CHAR8("hello world"));
 		s16.clear();
 	}
 	{
 		// 8 -> 32
-		s32 = EA::StdC::Strlcpy<eastl::string32, eastl::string8>(s8);
+		s32 = EA::StdC::Strlcpy<eastl::string32, eastl::u8string>(s8);
 		EATEST_VERIFY(s32 == EA_CHAR32("hello world"));
 		s8.clear();
 
 		// 32 -> 8
-		s8 = EA::StdC::Strlcpy<eastl::string8, eastl::string32>(s32);
+		s8 = EA::StdC::Strlcpy<eastl::u8string, eastl::string32>(s32);
 		EATEST_VERIFY(s8 == EA_CHAR8("hello world"));
 		s32.clear();
 	}
 	{
 		// 8 -> 8
-		s8 = EA::StdC::Strlcpy<eastl::string8, eastl::string8>(eastl::string8(EA_CHAR8("hello world")));
+		s8 = EA::StdC::Strlcpy<eastl::u8string, eastl::u8string>(eastl::u8string(EA_CHAR8("hello world")));
 		EATEST_VERIFY(s8 == EA_CHAR8("hello world"));
 		s8.clear();
 
@@ -3775,29 +3775,29 @@ static int TestConvertString()
 	// inline Dest Strlcpy(Dest& d, const Source* pSource, size_t sourceLength = (size_t)~0);
 	{
 		// 8 -> 16
-		s16 = EA::StdC::Strlcpy<eastl::string16, char>("hello world", 11);
+		s16 = EA::StdC::Strlcpy<eastl::string16, char8_t>(EA_CHAR8("hello world"), 11);
 		EATEST_VERIFY(s16 == EA_CHAR16("hello world"));
 		s8.clear();
 
 		// 16 -> 8
-		s8 = EA::StdC::Strlcpy<eastl::string8, char16_t>(EA_CHAR16("hello world"), 11);
+		s8 = EA::StdC::Strlcpy<eastl::u8string, char16_t>(EA_CHAR16("hello world"), 11);
 		EATEST_VERIFY(s8 == EA_CHAR8("hello world"));
 		s16.clear();
 	}
 	{
 		// 8 -> 32
-		s32 = EA::StdC::Strlcpy<eastl::string32, char>("hello world", 11);
+		s32 = EA::StdC::Strlcpy<eastl::string32, char8_t>(EA_CHAR8("hello world"), 11);
 		EATEST_VERIFY(s32 == EA_CHAR32("hello world"));
 		s8.clear();
 
 		// 32 -> 8
-		s8 = EA::StdC::Strlcpy<eastl::string8, char32_t>(EA_CHAR32("hello world"), 11);
+		s8 = EA::StdC::Strlcpy<eastl::u8string, char32_t>(EA_CHAR32("hello world"), 11);
 		EATEST_VERIFY(s8 == EA_CHAR8("hello world"));
 		s32.clear();
 	}
 	{
 		// 8 -> 8
-		s8 = EA::StdC::Strlcpy<eastl::string8, char>("hello world", 11);
+		s8 = EA::StdC::Strlcpy<eastl::u8string, char8_t>(EA_CHAR8("hello world"), 11);
 		EATEST_VERIFY(s8 == EA_CHAR8("hello world"));
 		s8.clear();
 
@@ -3818,7 +3818,7 @@ static int TestConvertString()
 	{
 		// 8 -> 16
 		s16 = EA_CHAR16("abc ");
-		EA::StdC::Strlcat(s16, eastl::string8(EA_CHAR8("hello world")));
+		EA::StdC::Strlcat(s16, eastl::u8string(EA_CHAR8("hello world")));
 		EATEST_VERIFY(s16 == EA_CHAR16("abc hello world"));
 
 		// 16 -> 8
@@ -3829,7 +3829,7 @@ static int TestConvertString()
 	{
 		// 8 -> 32
 		s32 = EA_CHAR32("abc ");
-		EA::StdC::Strlcat(s32, eastl::string8(EA_CHAR8("hello world")));
+		EA::StdC::Strlcat(s32, eastl::u8string(EA_CHAR8("hello world")));
 		EATEST_VERIFY(s32 == EA_CHAR32("abc hello world"));
 
 		// 32 -> 8
@@ -3840,7 +3840,7 @@ static int TestConvertString()
 	{
 		// 8 -> 8
 		s8 = EA_CHAR8("abc ");
-		EA::StdC::Strlcat(s8, eastl::string8(EA_CHAR8("hello world")));
+		EA::StdC::Strlcat(s8, eastl::u8string(EA_CHAR8("hello world")));
 		EATEST_VERIFY(s8 == EA_CHAR8("abc hello world"));
 		s8.clear();
 
@@ -3935,30 +3935,30 @@ static int TestConvertString()
 		// inline Dest ConvertString(const Source& s);
 		{
 			// 8 -> 16
-			s16 = EA::StdC::ConvertString<eastl::string8,  eastl::string16>(s8);
+			s16 = EA::StdC::ConvertString<eastl::u8string,  eastl::string16>(s8);
 			EATEST_VERIFY(s16 == EA_CHAR16("hello world"));
 			s8.clear();
 
 			// 16 -> 8
-			s8 = EA::StdC::ConvertString<eastl::string16, eastl::string8>(s16);
+			s8 = EA::StdC::ConvertString<eastl::string16, eastl::u8string>(s16);
 			EATEST_VERIFY(s8 == EA_CHAR8("hello world"));
 			s16.clear();
 		}
 		{
 			// 8 -> 32
-			s32 = EA::StdC::ConvertString<eastl::string8,  eastl::string32>(s8);
+			s32 = EA::StdC::ConvertString<eastl::u8string,  eastl::string32>(s8);
 			EATEST_VERIFY(s32 == EA_CHAR32("hello world"));
 			s8.clear();
 
 			// 32 -> 8
-			s8 = EA::StdC::ConvertString<eastl::string32, eastl::string8>(s32);
+			s8 = EA::StdC::ConvertString<eastl::string32, eastl::u8string>(s32);
 			EATEST_VERIFY(s8 == EA_CHAR8("hello world"));
 			s32.clear();
 		}
 
 		{
 			// 8 -> 8
-			s8 = EA::StdC::ConvertString<eastl::string8, eastl::string8>(eastl::string8(EA_CHAR8("hello world")));
+			s8 = EA::StdC::ConvertString<eastl::u8string, eastl::u8string>(eastl::u8string(EA_CHAR8("hello world")));
 			EATEST_VERIFY(s8 == EA_CHAR8("hello world"));
 			s8.clear();
 
@@ -3975,7 +3975,7 @@ static int TestConvertString()
 
 		{   //Regression for user-reported problem.
 			const auto* pPath8 = EA_CHAR8("/abc/def/ghi/jkl");
-			eastl::string16 path16 = EA::StdC::ConvertString<eastl::string8, eastl::string16>(pPath8);
+			eastl::string16 path16 = EA::StdC::ConvertString<eastl::u8string, eastl::string16>(pPath8);
 			EATEST_VERIFY((path16.length() == EA::StdC::Strlen(pPath8)));
 		}
 	}
