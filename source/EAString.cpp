@@ -1377,7 +1377,7 @@ EASTDC_API size_t Strlcat(char32_t* pDestination, const char16_t* pSource, size_
 
 	EASTDC_API size_t Strlen(const char* pString)
 	{
-		ssize_t nLength = (size_t)-1; // EABase 1.0.14 and later recognize ssize_t for all platforms.
+		ptrdiff_t nLength = (size_t)-1;
 
 		do
 		{
